@@ -29,9 +29,10 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class      instance    title       tags mask     isfloating   monitor    scratch key */
+	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0  },
+	{ "firefox",  NULL,       NULL,       1 << 8,       0,           -1,        0  },
+	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },
 };
 
 /* layout(s) */
@@ -63,8 +64,35 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
+/*First arg only serves to match against key in rules*/
+static const char *scratchpadcmd1[]  = {"s", "st", "-t", "scratchpad1", NULL};
+static const char *scratchpadcmd2[]  = {"s", "st", "-t", "scratchpad2", NULL};
+static const char *scratchpadcmd3[]  = {"s", "st", "-t", "scratchpad3", NULL};
+static const char *scratchpadcmd4[]  = {"s", "st", "-t", "scratchpad4", NULL};
+static const char *scratchpadcmd5[]  = {"s", "st", "-t", "scratchpad5", NULL};
+static const char *scratchpadcmd6[]  = {"s", "st", "-t", "scratchpad6", NULL};
+static const char *scratchpadcmd7[]  = {"s", "st", "-t", "scratchpad7", NULL};
+static const char *scratchpadcmd8[]  = {"s", "st", "-t", "scratchpad8", NULL};
+static const char *scratchpadcmd9[]  = {"s", "st", "-t", "scratchpad9", NULL};
+static const char *scratchpadcmd10[] = {"s", "st", "-t", "scratchpad10", NULL};
+static const char *scratchpadcmd11[] = {"s", "st", "-t", "scratchpad11", NULL};
+static const char *scratchpadcmd12[] = {"s", "st", "-t", "scratchpad12", NULL};
+
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY,                       XK_F1,  togglescratch,     {.v = scratchpadcmd1 } },
+	{ MODKEY,                       XK_F2,  togglescratch,     {.v = scratchpadcmd2 } },
+	{ MODKEY,                       XK_F3,  togglescratch,     {.v = scratchpadcmd3 } },
+	{ MODKEY,                       XK_F4,  togglescratch,     {.v = scratchpadcmd4 } },
+	{ MODKEY,                       XK_F5,  togglescratch,     {.v = scratchpadcmd5 } },
+	{ MODKEY,                       XK_F6,  togglescratch,     {.v = scratchpadcmd6 } },
+	{ MODKEY,                       XK_F7,  togglescratch,     {.v = scratchpadcmd7 } },
+	{ MODKEY,                       XK_F8,  togglescratch,     {.v = scratchpadcmd8 } },
+	{ MODKEY,                       XK_F9,  togglescratch,     {.v = scratchpadcmd9 } },
+	{ MODKEY,                       XK_F10,  togglescratch,    {.v = scratchpadcmd10 } },
+	{ MODKEY,                       XK_F11,  togglescratch,    {.v = scratchpadcmd11 } },
+	{ MODKEY,                       XK_F12,  togglescratch,    {.v = scratchpadcmd12 } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },

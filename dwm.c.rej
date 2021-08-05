@@ -1,30 +1,16 @@
---- config.def.h	2020-05-12 02:17:20.070933833 +0200
-+++ config.def.h	2020-05-13 03:27:51.018695798 +0200
-@@ -84,6 +84,9 @@ static Key keys[] = {
- 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
- 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
- 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-+	{ MODKEY|ShiftMask,             XK_minus, 		setborderpx,    {.i = -1 } },
-+	{ MODKEY|ShiftMask,             XK_plus, 		setborderpx,    {.i = +1 } },
-+	{ MODKEY|ShiftMask,             XK_numbersign, 	setborderpx,    {.i = 0 } },
- 	TAGKEYS(                        XK_1,                      0)
- 	TAGKEYS(                        XK_2,                      1)
- 	TAGKEYS(                        XK_3,                      2)
---- dwm.c	2020-05-12 02:17:20.070933833 +0200
-+++ dwm.c	2020-05-14 00:17:35.047919771 +0200
-@@ -119,6 +119,7 @@ struct Monitor {
- 	int by;               /* bar geometry */
- 	int mx, my, mw, mh;   /* screen size */
- 	int wx, wy, ww, wh;   /* window area  */
-+	unsigned int borderpx;
- 	unsigned int seltags;
- 	unsigned int sellt;
- 	unsigned int tagset[2];
-@@ -639,6 +641,7 @@ createmon(void)
- 	m->nmaster = nmaster;
- 	m->showbar = showbar;
- 	m->topbar = topbar;
-+	m->borderpx = borderpx;
- 	m->lt[0] = &layouts[0];
- 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
- 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
+--- dwm.c	2019-02-02 12:55:28.000000000 +0000
++++ dwm.c	2020-04-26 13:55:56.820584361 +0100
+@@ -208,11 +210,13 @@ static void seturgent(Client *c, int urg
+ static void showhide(Client *c);
+ static void sigchld(int unused);
+ static void spawn(const Arg *arg);
++static void spawnscratch(const Arg *arg);
+ static void tag(const Arg *arg);
+ static void tagmon(const Arg *arg);
+ static void tile(Monitor *);
+ static void togglebar(const Arg *arg);
+ static void togglefloating(const Arg *arg);
++static void togglescratch(const Arg *arg);
+ static void toggletag(const Arg *arg);
+ static void toggleview(const Arg *arg);
+ static void unfocus(Client *c, int setfocus);
