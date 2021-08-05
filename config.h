@@ -78,9 +78,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_plus,   setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_0,      setgaps,        {.i = 0  } },
 	{ MODKEY,                       XK_f,      togglefullscr,  {0} },
-	{ ALTKEY,                       XK_minus,  setborderpx,    {.i = -1 } },
-	{ ALTKEY,                       XK_plus,   setborderpx,    {.i = +1 } },
-	{ ALTKEY|ShiftMask,             XK_0,      setborderpx,    {.i = 0 } },
+	{ Mod1Mask,                     XK_minus,  setborderpx,    {.i = -1 } },
+	{ Mod1Mask,                     XK_plus,   setborderpx,    {.i = +1 } },
+	{ Mod1Mask|ShiftMask,           XK_0,      setborderpx,    {.i = 0 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
