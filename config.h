@@ -17,8 +17,8 @@ static const char col_gray4[]       = "#F8F8F2";
 static const char col_cyan[]        = "#56ADBC";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm]      = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]       = { col_gray1, col_gray3,  col_cyan  },
+	[SchemeNorm]      = { col_gray3, col_gray1, col_gray1 },
+	[SchemeSel]       = { col_gray1, col_gray3,  col_gray3  },
 	[SchemeStatus]    = { col_gray3, col_gray1,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
 	[SchemeTagsSel]   = { col_gray1, col_gray3,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
     [SchemeTagsNorm]  = { col_gray3, col_gray1,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
@@ -35,8 +35,9 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor    scratch key */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0  },
-//	{ "firefox",  NULL,       NULL,       1 << 8,       0,           -1,        0  },
+	{ "Gimp",     NULL,       NULL,       0,            0,           -1,         0  },
+	{ "Polybar",  NULL,       NULL,       0,            1,           -1,         0  },
+//	{ "firefox",  NULL,       NULL,       1 << 8,       0,           -1,         0  },
 	{ NULL,       NULL,   "scratchpad1",   0,            1,           -1,       'a' },
 	{ NULL,       NULL,   "scratchpad2",   0,            1,           -1,       'b' },
 	{ NULL,       NULL,   "scratchpad3",   0,            1,           -1,       'c' },
@@ -46,9 +47,9 @@ static const Rule rules[] = {
 	{ NULL,       NULL,   "scratchpad7",   0,            1,           -1,       'g' },
 	{ NULL,       NULL,   "scratchpad8",   0,            1,           -1,       'h' },
 	{ NULL,       NULL,   "scratchpad9",   0,            1,           -1,       'i' },
-	{ NULL,       NULL,   "scratchpad10",   0,            1,           -1,       'j' },
-	{ NULL,       NULL,   "scratchpad11",   0,            1,           -1,       'k' },
-	{ NULL,       NULL,   "scratchpad12",   0,            1,           -1,       'l' },
+	{ NULL,       NULL,   "scratchpad10",   0,            1,           -1,      'j' },
+	{ NULL,       NULL,   "scratchpad11",   0,            1,           -1,      'k' },
+	{ NULL,       NULL,   "scratchpad12",   0,            1,           -1,      'l' },
 };
 
 /* layout(s) */
@@ -74,20 +75,23 @@ static const Layout layouts[] = {
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *termcmd[]  = { "st", NULL };
 
 /*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd1[]  = {"a", "st", "-t", "scratchpad1", NULL};
-static const char *scratchpadcmd2[]  = {"b", "st", "-t", "scratchpad2", NULL};
-static const char *scratchpadcmd3[]  = {"c", "st", "-t", "scratchpad3", NULL};
-static const char *scratchpadcmd4[]  = {"d", "st", "-t", "scratchpad4", NULL};
-static const char *scratchpadcmd5[]  = {"e", "st", "-t", "scratchpad5", NULL};
-static const char *scratchpadcmd6[]  = {"f", "st", "-t", "scratchpad6", NULL};
-static const char *scratchpadcmd7[]  = {"g", "st", "-t", "scratchpad7", NULL};
-static const char *scratchpadcmd8[]  = {"h", "st", "-t", "scratchpad8", NULL};
-static const char *scratchpadcmd9[]  = {"i", "st", "-t", "scratchpad9", NULL};
-static const char *scratchpadcmd10[] = {"j", "st", "-t", "scratchpad10", NULL};
-static const char *scratchpadcmd11[] = {"k", "st", "-t", "scratchpad11", NULL};
-static const char *scratchpadcmd12[] = {"l", "st", "-t", "scratchpad12", NULL};
+static const char *scratchpadcmd1[]  = {"a", "st", "-t", "scratchpad1", "/bin/zsh"};
+static const char *scratchpadcmd2[]  = {"b", "st", "-t", "scratchpad2", "/bin/zsh"};
+static const char *scratchpadcmd3[]  = {"c", "st", "-t", "scratchpad3", "/bin/zsh"};
+static const char *scratchpadcmd4[]  = {"d", "st", "-t", "scratchpad4", "/bin/zsh"};
+static const char *scratchpadcmd5[]  = {"e", "st", "-t", "scratchpad5", "/bin/zsh"};
+static const char *scratchpadcmd6[]  = {"f", "st", "-t", "scratchpad6", "/bin/zsh"};
+static const char *scratchpadcmd7[]  = {"g", "st", "-t", "scratchpad7", "/bin/zsh"};
+static const char *scratchpadcmd8[]  = {"h", "st", "-t", "scratchpad8", "/bin/zsh"};
+static const char *scratchpadcmd9[]  = {"i", "st", "-t", "scratchpad9", "/bin/zsh"};
+static const char *scratchpadcmd10[] = {"j", "st", "-t", "scratchpad10", "/bin/zsh"};
+static const char *scratchpadcmd11[] = {"k", "st", "-t", "scratchpad11", "/bin/zsh"};
+static const char *scratchpadcmd12[] = {"l", "st", "-t", "scratchpad12", "/bin/zsh"};
 
 
 static Key keys[] = {
