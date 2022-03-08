@@ -118,7 +118,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_k,      pushup,         {0} },
     { MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_g,      togglefloating, {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
 	{ MODKEY,                       XK_plus,   setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_0,      setgaps,        {.i = 0  } },
